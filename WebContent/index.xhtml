@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap/css/bootstrap.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+        <div>
+            <h3>Gerenciamento de Produtos</h3>
+            <hr/>
+        </div>
+    </h:head>
+
+    <h:body styleClass="m-4">
+        <ui:param name="msgRequired" value="É necessário informar este campo" />
+        <ui:param name="controle" value="#{productController}" />
+
+        <h:panelGroup id="content">
+            <!--Campos para cadastro/edicao-->
+            <h:form id="crudProduct">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                
+                <!--Código do Produto-->
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <p:outputLabel value="Código" for="cod-product"/>
+                            <p:inputText id="cod-product" styleClass="form-control" placeholder="Código do produto" value="#{productController.product.code}" 
+                                         required="true"
+                                         requiredMessage="É necessário informar este campo"/>
+                            <p:messages for="cod-product"/>
+                        </div> 
+                    </div>
+
+                    <!--Nome do Produto-->
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <p:outputLabel value="Nome" for="product-name"/>
+                            <p:inputText id="product-name" styleClass="form-control" placeholder="Nome do produto" value="#{productController.product.name}"
+                                         required="true"
+                                         requiredMessage="É necessário informar este campo"/>
+                            <p:messages for="product-name"/>
+                        </div> 
+                    </div>
+
+                    <!--Preço do Produto-->
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <p:outputLabel value="Preço do Produto" for="product-price"/>
+                            <p:inputNumber id = "product-price" inputStyleClass="form-control"
+                                           symbol="R$ " symbolPosition="p" decimalPlaces="2" minValue="0" maxValue="9999999" placeholder="R$ 0,00" required="true" value="#{productController.product.price}"
+                                           requiredMessage="É necessário informar este campo"/>
+                            <p:messages for="product-price"/>
+                        </div> 
+                    </div>
+
+                    <div class="col-sm-2 mt-1">
+                        <p:outputLabel/>
+                        <div class="form-group">
+                            <p:commandButton value="Salvar" styleClass="btn btn-secondary" actionListener="#{productController.saveProduct()}" update="crudProduct table-product"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <hr/>
+            <div class="row">
+                <h4 class="col-sm-12 mb-4">
+                    Tabela de Produtos
+                </h4>
+                <h:panelGroup id="table-product" class="col-sm-12">
+                    <h:form id="tableProduct">
+                        <p:dataTable var="p" styleClass="table" emptyMessage="Não há registros!" value="#{productController.products}" >
+                            <p:column headerText="Código">
+                                <p:outputLabel value="#{p.code}"/>
+                            </p:column>
+
+                            <p:column headerText="Nome">
+                                <p:outputLabel value="#{p.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Preço">
+                                <p:outputLabel value="#{p.price}"/>
+                            </p:column>
+
+                            <p:column headerText="Opções">
+                                <p:commandButton icon="pi pi-pencil" value="Editar" actionListener="#{productController.initEditProduct(p)}" update="crudProduct table-product"/>
+                                <p:commandButton icon="pi pi-times" value="Remover" actionListener="#{productController.removeProduct(p)}" update="crudProduct table-product"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </h:panelGroup>
+            </div>
+        </h:panelGroup>
+    </h:body>
+</html>
