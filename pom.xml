@@ -19,7 +19,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<spring.version>5.1.5.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<jsf.version>2.2.12</jsf.version>
 		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
 	</properties>
